@@ -233,6 +233,7 @@ function Page1({ onNext }) {
 
 /* ── PAGE 2 — TIMELINE SEQUENCING ────────────────────────────── */
 function Page2({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [pool, setPool]         = useState(INITIAL_POOL);
   const [zones, setZones]       = useState(Array(6).fill(null));
   const [selected, setSelected] = useState(null); // {id, from: 'pool'|zoneIdx}
@@ -272,6 +273,7 @@ function Page2({ onNext }) {
 
   function checkOrder() {
     const res = zones.map((id, i) => id === CORRECT_ORDER[i]);
+    res.forEach(correct => { if (correct) recordAttempt(); else recordError(); });
     setResults(res);
     setChecked(true);
     const wrongIdx = res.map((r, i) => r ? null : i).filter(x => x !== null);

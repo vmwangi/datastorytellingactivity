@@ -644,7 +644,7 @@ function Page3({ onNext }) {
 
 /* ── PAGE 4 — SWAP + BEFORE/AFTER ────────────────────────────── */
 function Page4({ rankings, onRetry, onFinish }) {
-  const { goHome, markComplete } = useApp();
+  const { goHome, markComplete, recordAttempt, recordError } = useApp();
 
   const initSwaps = () => {
     const s = {};
@@ -691,6 +691,7 @@ function Page4({ rankings, onRetry, onFinish }) {
   function pickAlt(id, alt) {
     const item = JARGON_ITEMS.find(j => j.id === id);
     const idx  = item ? item.alts.indexOf(alt) : -1; // 0=most complex, 2=clearest
+    if (idx === 2) recordAttempt(); else recordError();
     setSwaps(prev => ({ ...prev, [id]: alt }));
     setLastSwap({ id, idx, alt });
     confirmSwap(id);

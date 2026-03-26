@@ -19,7 +19,7 @@ const ACTIVITIES = {
 
 // AppShell — persistent hamburger + sidebar overlay on every screen
 function AppShell() {
-  const { currentActivity, completed, sidebarOpen, setSidebarOpen, sidebarMeta, openActivity } = useApp();
+  const { currentActivity, completed, sidebarOpen, setSidebarOpen, sidebarMeta, openActivity, goHome } = useApp();
 
   const Activity = currentActivity ? ACTIVITIES[currentActivity] : null;
 
@@ -52,6 +52,7 @@ function AppShell() {
         onClose={() => setSidebarOpen(false)}
         completed={completed}
         onSelectActivity={openActivity}
+        onGoHome={goHome}
       />
 
       {/* ── Page content ─────────────────────────────────────── */}

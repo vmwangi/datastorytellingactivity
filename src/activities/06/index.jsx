@@ -278,6 +278,7 @@ function Page1({ onNext }) {
 
 /* ── PAGE 2 — IMAGE MATCH ─────────────────────────────────────── */
 function Page2({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [deck]     = useState(() => shuffle(PHRASES));
   const [selected, setSelected]  = useState(null);    // phraseId
   const [matched,  setMatched]   = useState({});      // phraseId → pairId
@@ -296,10 +297,12 @@ function Page2({ onNext }) {
   function placeOnPair(phraseId, pairId) {
     const phrase = PHRASES.find(p => p.id === phraseId);
     if (phrase.pairId === pairId) {
+      recordAttempt();
       setMatched(m => ({ ...m, [phraseId]: pairId }));
       setFlashing(pairId);
       setTimeout(() => setFlashing(null), 700);
     } else {
+      recordError();
       setShaking(pairId);
       setTimeout(() => setShaking(null), 450);
     }

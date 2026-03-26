@@ -623,6 +623,7 @@ const WRONG_CELL_FEEDBACK = {
 
 /* ─── Page 3 — Transparency Checklist ─────────────────────────────────────── */
 function Page3({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [grid,       setGrid]       = useState(() => Array(5).fill(null).map(() => Array(5).fill(false)));
   const [revealed,   setRevealed]   = useState(false);
   const [lastToggle, setLastToggle] = useState(null); // { ci, cj, nowChecked, isCorrect }
@@ -635,6 +636,9 @@ function Page3({ onNext }) {
       next[ci][cj] = nowChecked;
       return next;
     });
+    if (nowChecked) {
+      if (REF_TRANSPARENCY[ci][cj]) recordAttempt(); else recordError();
+    }
     if (nowChecked && !REF_TRANSPARENCY[ci][cj]) {
       setLastToggle({ ci, cj });
     } else {
@@ -996,6 +1000,7 @@ function FinalReport({ chartMatches }) {
 
 /* ─── Page 4 — Manipulation Spotter ───────────────────────────────────────── */
 function Page4({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [selectedLabel, setSelectedLabel] = useState(null);
   const [chartLabels,   setChartLabels]   = useState({});
   const [shakingChart,  setShakingChart]  = useState(null);
@@ -1020,9 +1025,11 @@ function Page4({ onNext }) {
   function placeLabel(labelId, chartNum) {
     const label = LABELS_DATA.find(l => l.id === labelId);
     if (label.correctChart === chartNum) {
+      recordAttempt();
       setChartLabels(prev => ({ ...prev, [chartNum]: labelId }));
       setWrongAttempt(null);
     } else {
+      recordError();
       setShakingChart(chartNum);
       setTimeout(() => setShakingChart(null), 450);
       const isDistractor = label.correctChart === null;
@@ -1265,7 +1272,7 @@ function Page4({ onNext }) {
 
 /* ─── Completion ───────────────────────────────────────────────────────────── */
 function CompletionPage() {
-  const { goHome } = useApp();
+  const { goHome, score, scoreData } = useApp();
 
   const ALL_ACTIVITIES = [
     ['01', 'Data Context'],
@@ -1298,6 +1305,38 @@ function CompletionPage() {
               visual manipulation — three skills that protect your audience from bad decisions.
             </div>
           </div>
+
+          {score !== null && (
+            <div style={{
+              display: 'flex', alignItems: 'center', gap: 16,
+              background: '#1A1A1A', borderRadius: 12, padding: '16px 20px',
+              border: `1px solid ${score >= 80 ? 'rgba(154,221,189,.3)' : 'rgba(189,57,57,.3)'}`,
+              marginBottom: 20, textAlign: 'left',
+            }}>
+              <div style={{
+                width: 64, height: 64, borderRadius: 12, flexShrink: 0,
+                background: score >= 80 ? 'rgba(154,221,189,.1)' : 'rgba(189,57,57,.12)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 26, fontWeight: 900,
+                color: score >= 80 ? '#9ADDBD' : '#BD3939',
+              }}>
+                {score}%
+              </div>
+              <div>
+                <div style={{ fontSize: 11, color: score >= 80 ? '#9ADDBD' : '#a88a87',
+                  letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 4 }}>
+                  Final Score
+                </div>
+                <div style={{ fontSize: 15, fontWeight: 700,
+                  color: score >= 80 ? '#9ADDBD' : '#e5e2e1' }}>
+                  {scoreData.attempts - scoreData.errors} correct of {scoreData.attempts} attempts
+                </div>
+                <div style={{ fontSize: 12, color: '#AAAAAA', marginTop: 2 }}>
+                  {score >= 80 ? 'Strong performance across all activities.' : score >= 50 ? 'Good effort — review the activities where you struggled.' : 'Consider retrying activities to improve your score.'}
+                </div>
+              </div>
+            </div>
+          )}
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 24, textAlign: 'left' }}>
             {ALL_ACTIVITIES.map(([n, label]) => (

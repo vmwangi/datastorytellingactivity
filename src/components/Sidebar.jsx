@@ -9,7 +9,7 @@ const ACTIVITY_LABELS = [
   'Credibility & Transparency',
 ];
 
-export default function Sidebar({ activeDot, progress, open, onClose, completed = new Set(), onSelectActivity }) {
+export default function Sidebar({ activeDot, progress, open, onClose, completed = new Set(), onSelectActivity, onGoHome }) {
   return (
     <>
       {/* backdrop */}
@@ -45,12 +45,30 @@ export default function Sidebar({ activeDot, progress, open, onClose, completed 
         }}>
           <div style={{ fontSize: 10, color: '#59413f', letterSpacing: '.08em',
             textTransform: 'uppercase', marginBottom: 4 }}>
-            Data Storytelling
+            Assessment
           </div>
           <div style={{ fontSize: 14, color: '#e5e2e1', fontWeight: 700 }}>
-            From Numbers to Narrative
+            Data Storytelling Test
           </div>
         </div>
+
+        {/* Home link */}
+        <button
+          onClick={() => { onGoHome?.(); onClose(); }}
+          style={{
+            width: '100%', textAlign: 'left',
+            background: 'transparent', border: 'none',
+            borderBottom: '1px solid #1C1B1B',
+            padding: '11px 16px', cursor: 'pointer',
+            display: 'flex', alignItems: 'center', gap: 10,
+            fontFamily: 'Inter', transition: 'background .15s',
+          }}
+          onMouseEnter={e => e.currentTarget.style.background = 'rgba(255,255,255,.03)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'transparent'}
+        >
+          <span className="material-symbols-outlined" style={{ fontSize: 16, color: '#a88a87', flexShrink: 0 }}>home</span>
+          <span style={{ fontSize: 12, color: '#a88a87', fontWeight: 500 }}>Back to Home</span>
+        </button>
 
         {/* activity list */}
         <div style={{ flex: 1, padding: '8px 0' }}>

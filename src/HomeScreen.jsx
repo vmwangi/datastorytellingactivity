@@ -12,7 +12,7 @@ const ACTIVITIES = [
 ];
 
 export default function HomeScreen() {
-  const { openActivity, completed } = useApp();
+  const { openActivity, completed, score, scoreData } = useApp();
 
   return (
     <div style={{ minHeight: '100dvh', background: '#131313', padding: '0 0 40px' }}>
@@ -21,16 +21,17 @@ export default function HomeScreen() {
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
           <div style={{ fontSize: 11, color: '#a88a87', letterSpacing: '.08em',
             textTransform: 'uppercase', marginBottom: 10 }}>
-            Data Storytelling
+            Assessment
           </div>
           <div style={{ fontSize: 'clamp(28px,7vw,42px)', fontWeight: 900, color: '#e5e2e1',
             lineHeight: 1.15, letterSpacing: '-.02em' }}>
-            From Numbers<br />
-            <span style={{ color: '#BD3939' }}>to Narrative.</span>
+            Data Storytelling<br />
+            <span style={{ color: '#BD3939' }}>Test.</span>
           </div>
           <div style={{ fontSize: 15, color: '#AAAAAA', marginTop: 12, lineHeight: 1.6 }}>
-            Eight interactive activities that transform how you present data —
-            building skills from audience awareness to credibility.
+            Eight interactive activities that gauge your ability to communicate data
+            effectively — from framing context and structuring narrative, to choosing
+            the right visualisation, building credibility, and driving action.
           </div>
           <div style={{ marginTop: 16, display: 'flex', alignItems: 'center', gap: 12 }}>
             <div style={{ height: 4, flex: 1, background: '#353534', borderRadius: 2 }}>
@@ -43,6 +44,33 @@ export default function HomeScreen() {
               {completed.size}/8 complete
             </span>
           </div>
+
+          {score !== null && (
+            <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 12,
+              background: '#1C1B1B', borderRadius: 10, padding: '12px 16px',
+              border: '1px solid #2A2A2A' }}>
+              <div style={{
+                width: 48, height: 48, borderRadius: 10, flexShrink: 0,
+                background: score >= 80 ? 'rgba(154,221,189,.12)' : score >= 50 ? 'rgba(189,57,57,.1)' : 'rgba(189,57,57,.18)',
+                display: 'flex', alignItems: 'center', justifyContent: 'center',
+                fontSize: 20, fontWeight: 900,
+                color: score >= 80 ? '#9ADDBD' : '#BD3939',
+              }}>
+                {score}
+              </div>
+              <div>
+                <div style={{ fontSize: 11, color: '#a88a87', letterSpacing: '.07em',
+                  textTransform: 'uppercase', marginBottom: 2 }}>Current Score</div>
+                <div style={{ fontSize: 13, color: '#AAAAAA', lineHeight: 1.4 }}>
+                  {scoreData.attempts - scoreData.errors} correct of {scoreData.attempts} attempts
+                </div>
+              </div>
+              <div style={{ marginLeft: 'auto', fontSize: 24, fontWeight: 900,
+                color: score >= 80 ? '#9ADDBD' : '#BD3939' }}>
+                {score}%
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

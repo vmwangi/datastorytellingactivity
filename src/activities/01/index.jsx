@@ -533,6 +533,7 @@ function Page2({ onNext }) {
 
 /* ── PAGE 3 — THE CHALLENGE ───────────────────────────────────── */
 function Page3({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [tab, setTab] = useState(0);
   const [refOpen, setRefOpen] = useState(false);
   const [choices, setChoices] = useState({
@@ -564,6 +565,11 @@ function Page3({ onNext }) {
   }
 
   function handleNext() {
+    const key = ANSWER_KEY[aud];
+    const insightsMatch = key.insights.length === cur.insights.length &&
+      key.insights.every(id => cur.insights.includes(id));
+    const vizMatch = cur.viz === key.viz;
+    if (insightsMatch && vizMatch) recordAttempt(); else recordError();
     if (tab < 2) setTab(t => t + 1);
     else onNext(choices);
   }

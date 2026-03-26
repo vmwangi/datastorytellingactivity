@@ -248,6 +248,7 @@ function shuffleArray(arr) {
 }
 
 function Page2({ onNext }) {
+  const { recordAttempt, recordError } = useApp();
   const [current, setCurrent]   = useState(0);
   const [matched, setMatched]   = useState({});     // { chartId: [scenarioIds] }
   const [feedback, setFeedback] = useState(null);   // { chartId, correct }
@@ -267,6 +268,7 @@ function Page2({ onNext }) {
   function attempt(chartId) {
     if (feedback) return;
     const correct = chartId === scenario.correct;
+    if (correct) recordAttempt(); else recordError();
     setFeedback({ chartId, correct });
 
     if (correct) {
@@ -467,11 +469,15 @@ function Page2({ onNext }) {
 
 /* ── PAGE 3 — CONSEQUENCE ROUND ───────────────────────────────── */
 function Page3({ onComplete, onRetry }) {
+  const { recordAttempt, recordError } = useApp();
   const [answers, setAnswers] = useState({});
   const allAnswered = CONSEQUENCES.every(c => answers[c.id]);
 
   function pick(panelId, optionId) {
     if (answers[panelId]) return;
+    const panel = CONSEQUENCES.find(c => c.id === panelId);
+    const option = panel?.options.find(o => o.id === optionId);
+    if (option?.correct) recordAttempt(); else recordError();
     setAnswers(prev => ({ ...prev, [panelId]: optionId }));
   }
 
