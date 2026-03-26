@@ -163,6 +163,7 @@ function LadderPage({ scenario, progress, showCompletion, onComplete }) {
   const { recordAttempt, recordError } = useApp();
   const [cards]      = useState(() => shuffle(scenario.cards));
   const [placements, setPlacements] = useState({ insight: null, implication: null, action: null });
+  const [scoredRungs, setScoredRungs] = useState(new Set()); // rungs already scored correct
   const [selected,   setSelected]   = useState(null);
   const [dragging,   setDragging]   = useState(null);
   const [climbStep,  setClimbStep]  = useState(-1);
@@ -239,7 +240,15 @@ function LadderPage({ scenario, progress, showCompletion, onComplete }) {
     const firstWrongIdx = rungs.findIndex(r => !isCorrect[r]);
     const stepsNeeded   = firstWrongIdx === -1 ? 4 : firstWrongIdx + 1;
     const rungsToScore  = firstWrongIdx === -1 ? rungs : rungs.slice(0, firstWrongIdx + 1);
-    rungsToScore.forEach(r => { if (isCorrect[r]) recordAttempt(); else recordError(); });
+    rungsToScore.forEach(r => {
+      if (isCorrect[r] && !scoredRungs.has(r)) recordAttempt();
+      else if (!isCorrect[r]) recordError();
+    });
+    setScoredRungs(prev => {
+      const next = new Set(prev);
+      rungsToScore.forEach(r => { if (isCorrect[r]) next.add(r); });
+      return next;
+    });
 
     setClimbStep(0);
     setRungStatus({});

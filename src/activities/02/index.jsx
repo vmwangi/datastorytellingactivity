@@ -241,6 +241,7 @@ function Page2({ onNext }) {
   const [results, setResults]   = useState(null);  // array of booleans
   const [shaking, setShaking]   = useState([]);    // zone indices shaking
   const [hintIndex, setHintIndex] = useState(-1);
+  const [scoredSlots, setScoredSlots] = useState(new Set()); // indices already scored correct
 
   const card = id => CARDS.find(c => c.id === id);
   const allFilled = zones.every(z => z !== null);
@@ -273,7 +274,15 @@ function Page2({ onNext }) {
 
   function checkOrder() {
     const res = zones.map((id, i) => id === CORRECT_ORDER[i]);
-    res.forEach(correct => { if (correct) recordAttempt(); else recordError(); });
+    res.forEach((correct, i) => {
+      if (correct && !scoredSlots.has(i)) recordAttempt();
+      else if (!correct) recordError();
+    });
+    setScoredSlots(prev => {
+      const next = new Set(prev);
+      res.forEach((correct, i) => { if (correct) next.add(i); });
+      return next;
+    });
     setResults(res);
     setChecked(true);
     const wrongIdx = res.map((r, i) => r ? null : i).filter(x => x !== null);

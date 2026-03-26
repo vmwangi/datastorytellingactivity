@@ -49,23 +49,19 @@ export default function HomeScreen() {
             <div style={{ marginTop: 14, display: 'flex', alignItems: 'center', gap: 12,
               background: '#1C1B1B', borderRadius: 10, padding: '12px 16px',
               border: '1px solid #2A2A2A' }}>
-              <div style={{
-                width: 48, height: 48, borderRadius: 10, flexShrink: 0,
-                background: score >= 80 ? 'rgba(154,221,189,.12)' : score >= 50 ? 'rgba(189,57,57,.1)' : 'rgba(189,57,57,.18)',
-                display: 'flex', alignItems: 'center', justifyContent: 'center',
-                fontSize: 20, fontWeight: 900,
-                color: score >= 80 ? '#9ADDBD' : '#BD3939',
+              <span className="material-symbols-outlined" style={{
+                fontSize: 28, color: score >= 80 ? '#9ADDBD' : '#BD3939', flexShrink: 0,
               }}>
-                {score}
-              </div>
-              <div>
+                {score >= 80 ? 'emoji_events' : 'analytics'}
+              </span>
+              <div style={{ flex: 1 }}>
                 <div style={{ fontSize: 11, color: '#a88a87', letterSpacing: '.07em',
                   textTransform: 'uppercase', marginBottom: 2 }}>Current Score</div>
                 <div style={{ fontSize: 13, color: '#AAAAAA', lineHeight: 1.4 }}>
                   {scoreData.attempts - scoreData.errors} correct of {scoreData.attempts} attempts
                 </div>
               </div>
-              <div style={{ marginLeft: 'auto', fontSize: 24, fontWeight: 900,
+              <div style={{ fontSize: 22, fontWeight: 900,
                 color: score >= 80 ? '#9ADDBD' : '#BD3939' }}>
                 {score}%
               </div>
