@@ -17,15 +17,11 @@ export default function HomeScreen() {
   return (
     <div style={{ minHeight: '100dvh', background: '#131313', padding: '0 0 40px' }}>
       {/* hero */}
-      <div style={{ background: '#0E0E0E', padding: '32px 20px 28px', borderBottom: '1px solid #1C1B1B' }}>
+      <div style={{ background: '#0E0E0E', padding: '72px 20px 28px', borderBottom: '1px solid #1C1B1B' }}>
         <div style={{ maxWidth: 560, margin: '0 auto' }}>
-          <div style={{ fontSize: 11, color: '#a88a87', letterSpacing: '.08em',
-            textTransform: 'uppercase', marginBottom: 10 }}>
-            Assessment
-          </div>
           <div style={{ fontSize: 'clamp(28px,7vw,42px)', fontWeight: 900, color: '#e5e2e1',
             lineHeight: 1.15, letterSpacing: '-.02em' }}>
-            Data Storytelling<br />
+            The Data Storytelling<br />
             <span style={{ color: '#BD3939' }}>Test.</span>
           </div>
           <div style={{ fontSize: 15, color: '#AAAAAA', marginTop: 12, lineHeight: 1.6 }}>
