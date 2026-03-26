@@ -1,0 +1,79 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*, *::before, *::after { box-sizing: border-box; }
+
+html { font-size: 16px; }
+
+body {
+  background: #131313;
+  font-family: 'Inter', sans-serif;
+  color: #e5e2e1;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Design-system utilities ─────────────────────────────────── */
+.bg-crimson-gradient { background: linear-gradient(135deg, #BD3939, #8D141B); }
+
+.progress-track { height: 4px; background: #353534; border-radius: 2px; }
+.progress-fill  { height: 4px; background: #BD3939; border-radius: 2px; transition: width .7s ease; }
+
+/* ── Keyframe library ────────────────────────────────────────── */
+@keyframes pulseDot  { 0%,100%{ box-shadow: 0 0 0 0 rgba(189,57,57,.7) } 50%{ box-shadow: 0 0 0 6px rgba(189,57,57,0) } }
+@keyframes fadeInUp  { from{ opacity:0; transform:translateY(14px) } to{ opacity:1; transform:translateY(0) } }
+@keyframes fadeIn    { from{ opacity:0 } to{ opacity:1 } }
+@keyframes slideUp   { from{ opacity:0; transform:translateY(24px) } to{ opacity:1; transform:translateY(0) } }
+@keyframes shake     { 0%,100%{transform:translateX(0)} 20%{transform:translateX(-8px)} 40%{transform:translateX(8px)} 60%{transform:translateX(-5px)} 80%{transform:translateX(5px)} }
+@keyframes mintPulse { 0%{box-shadow:0 0 0 0 rgba(154,221,189,0)} 40%{box-shadow:0 0 0 6px rgba(154,221,189,.4)} 100%{box-shadow:0 0 0 0 rgba(154,221,189,0)} }
+@keyframes breathe   { 0%,100%{box-shadow:0 0 0 0 rgba(189,57,57,.4)} 50%{box-shadow:0 0 0 8px rgba(189,57,57,0)} }
+@keyframes popIn     { 0%{opacity:0;transform:scale(.85)} 70%{transform:scale(1.05)} 100%{opacity:1;transform:scale(1)} }
+@keyframes scaleIn   { from{opacity:0;transform:scale(.9)} to{opacity:1;transform:scale(1)} }
+@keyframes blurReveal{ from{filter:blur(10px);opacity:.6} to{filter:blur(0);opacity:1} }
+
+/* ── Animation helpers ───────────────────────────────────────── */
+.anim-fadeIn    { animation: fadeIn    .5s  ease forwards; }
+.anim-fadeInUp  { animation: fadeInUp  .6s  ease forwards; }
+.anim-slideUp   { animation: slideUp   .5s  ease forwards; }
+.anim-shake     { animation: shake     .4s  ease; }
+.anim-mintPulse { animation: mintPulse .65s ease; }
+.anim-breathe   { animation: breathe   1.8s ease-in-out infinite; }
+.anim-popIn     { animation: popIn     .4s  ease forwards; }
+.anim-scaleIn   { animation: scaleIn   .35s ease forwards; }
+.anim-blurReveal{ animation: blurReveal 1.5s ease forwards; }
+
+.pulse-dot { animation: pulseDot 1.5s ease-in-out infinite; }
+
+/* ── Bottom nav safe area ────────────────────────────────────── */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(transparent, #131313 55%);
+  padding: 28px 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 50;
+}
+
+/* ── Material symbols ────────────────────────────────────────── */
+.material-symbols-outlined {
+  font-family: 'Material Symbols Outlined';
+  font-weight: normal;
+  font-style: normal;
+  font-size: 20px;
+  display: inline-block;
+  line-height: 1;
+  letter-spacing: normal;
+  text-transform: none;
+  white-space: nowrap;
+  word-wrap: normal;
+  direction: ltr;
+  -webkit-font-feature-settings: 'liga';
+  -webkit-font-smoothing: antialiased;
+  vertical-align: middle;
+}
